@@ -67,7 +67,7 @@ var FlickrPhotoService = {
     _setSinglePhotoImg: function(single_photo_data){
       $("#photo-list").append
            (
-            "<a class = 'listphotos' href =  \"javascript:updateSaveImageField(\'" + single_photo_data.img_url + "\')\">" +
+            "<a class = 'listphotos' href =  \"javascript:updateImageFieldHelper.updateSaveImageField(\'" + single_photo_data.img_url + "\')\">" +
             "<img src ='" + single_photo_data.img_url + "'>" +
              "</a>"
            );

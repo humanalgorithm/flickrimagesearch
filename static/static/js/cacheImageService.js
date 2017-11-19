@@ -74,51 +74,24 @@ var cacheImageService = {
       for (i in cache_image_ids)
         {
           $("#cache-images").append(
-             "<a class = 'image-selected' href =  \"javascript:updateDeleteImageField(\'" + cache_image_ids[i]['id'] + "\')\">" +
+             "<a class = 'image-selected' href =  \"javascript:updateImageFieldHelper.updateDeleteImageField(\'" + cache_image_ids[i]['id'] + "\')\">" +
              "<img src = '/cache_image/images/" + cache_image_ids[i]['id'] + "'/>" +
              "</a>"
            );
         }
     }
-
 }
 
-function updateSaveImageField(image_src)
- {
-  $("#image-save-field").val(image_src);
- }
-
- function updateDeleteImageField(delete_image_id)
- {
-    url = "/cache_images/images/" + delete_image_id
-   $("#delete-image-field").val(url);
-   $("#delete-image-field").text(delete_image_id);
- }
-
-$(document).ready(function()
-{
-  self = cacheImageService
-  cacheImageService.loadCacheImages(self)
-  $('#right-bar').on('click', 'a', function()
+var updateImageFieldHelper = {
+  updateSaveImageField: function(image_src)
     {
-      $('.image-selected').each(function()
-      {
-        $(this).css("opacity", "1");
-      });
+     $("#image-save-field").val(image_src);
+    },
+  updateDeleteImageField: function(delete_image_id)
+    {
+      url = "/cache_images/images/" + delete_image_id
+      $("#delete-image-field").val(url);
+      $("#delete-image-field").text(delete_image_id);
+    }
+}
 
-      $(this).css("opacity", ".3");
-
-      updateDeleteImageField($(this).attr('title'));
-   });
-
-  $('#photo-list ').on('click', 'a', function()
-     {
-       $('.listphotos').each(function()
-        {
-          $(this).css("opacity", "1");
-        });
-
-      $(this).css("opacity", ".3");
-     });
-
-});
