@@ -72,7 +72,7 @@ function updatedeleteimagefield(dbimagesrc)
 
 $(document).ready(function()
 {
-loaddbimages();
+//loaddbimages();
 
 $('#rightbar').on('click', 'a', function()
   {

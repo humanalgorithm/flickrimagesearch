@@ -12,24 +12,22 @@ var FlickrPhotoService = {
     loadPhotosFromFlickr: function(){
 
     this._setLoadingIcon()
-    flickr_image_id_map = this._makePhotoListRequest()
-
+    flickr_image_id_map = this._makePhotoListRequest(this._loadPhotosById)
     },
     _setLoadingIcon: function(){
         $("#photo-list").text("");
         $("#photo-list").append("<img id='time' src='/static/ajax-loader.gif'/>");
     },
 
-    _makePhotoListRequest(){
+    _makePhotoListRequest(callback){
+        self = this
         var search_text = $("#search-text").val();
-        var url = "/getphotolist";
+        var url = "/flickr_request/getphotolist";
         $.ajax({
            type: "GET", url: url, data: {search_text: search_text,},
            success: function(data)
            {
-            var response = JSON.parse(data);
-            var flickr_image_id_map = response.flickr_image_id_map;
-
+            var flickr_image_id_map = data.flickr_image_id_map;
             if (flickr_image_id_map=='')
             {
               $("#photo-list").text("No results were found");
@@ -37,38 +35,41 @@ var FlickrPhotoService = {
             }
             else
             {
-              return flickr_image_id_map
+              callback(flickr_image_id_map, self)
             }
            },
            error: function (data)
            {}
          });
     },
-
-    _loadPhotosById: function getphotos(flickr_image_id_map)
+    _loadPhotosById: function(flickr_image_id_map, self)
     {
-      var single_photo_url = "/getsinglephoto";
+      var single_photo_url = "/flickr_request/getsinglephoto";
       for (var key in flickr_image_id_map)
         {
          $.ajax({
-             type: "GET", 
-             url: urlgetsinglephoto,
+             type: "GET",
+             url: single_photo_url,
              data: {photo_id: flickr_image_id_map[key],},
-             success: function(singlephotodata)
+             success: function(single_photo_data)
               {
-
+                self._setSinglePhotoImg(single_photo_data)
               },
               error: function(data){}
              });
          }
+      self._clearLoadingIcon()
     },
-    _setSinglePhotoImg: function(){
+    _setSinglePhotoImg: function(single_photo_data){
       $("#photo-list").append
            (
-            "<a class = 'listphotos' href =  \"javascript:updateimagesavefield(\'" + singlephotodata.singlephotodata + "\')\">" +
-            "<img src ='" + singlephotodata.singlephotodata + "'>" +
+            "<a class = 'listphotos' href =  \"javascript:updateimagesavefield(\'" + single_photo_data.img_url + "\')\">" +
+            "<img src ='" + single_photo_data.img_url + "'>" +
              "</a>"
            );
+    },
+    _clearLoadingIcon: function(){
+      $("#time").text("");
     }
 
 }

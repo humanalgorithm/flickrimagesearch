@@ -24,6 +24,7 @@ admin.autodiscover()
 urlpatterns = [
                url(r'^cache_image/', include('cache_image.urls')),
                url(r'^flickr_request/', include('flickr_request.urls')),
+               url(r'', include('page.urls')),
                ]
 
 

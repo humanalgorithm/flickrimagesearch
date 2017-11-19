@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'cache_image',
     'flickr_request',
+    'page'
 
 )
 

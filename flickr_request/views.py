@@ -16,8 +16,8 @@ class FlickrImagesListView(View):
 
             for x in range(0, len(photo_data["photos"]["photo"])):
                 flickr_image_id_map[x] = photo_data["photos"]["photo"][x]["id"]
-
-            photo_data_response = simplejson.dumps({"flickr_image_id_map": flickr_image_id_map})
+            import json
+            photo_data_response = json.dumps({"flickr_image_id_map": flickr_image_id_map})
             return HttpResponse(photo_data_response, content_type='application/json')
 
         except Exception:
@@ -27,15 +27,15 @@ class FlickrImagesListView(View):
 
 class FlickrSingleImageView(View):
     def get(self, request):
-        photo_id = request.GET.get('photoid')
+        photo_id = request.GET.get('photo_id')
         try:
             flickr_single_photo_url = FlickrUrlGenerator().get_single_photo_url(photo_id)
             page = urllib2.urlopen(flickr_single_photo_url).read()
             photo_data_json = simplejson.loads(page)
 
             single_photo_source = photo_data_json["sizes"]["size"][1]["source"]
-            photo_data_response = simplejson.dumps({"singlephotodata": single_photo_source})
+            photo_data_response = simplejson.dumps({"img_url": single_photo_source})
             return HttpResponse(photo_data_response, content_type='application/json')
         except Exception:
-            photo_data_response = simplejson.dumps({"singlephotodata": ""})
+            photo_data_response = simplejson.dumps({"img_url": ""})
             return HttpResponse(photo_data_response, content_type='application/json')

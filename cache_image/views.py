@@ -2,9 +2,6 @@ import simplejson
 import io
 import imghdr
 import urllib
-from django.shortcuts import render, HttpResponseRedirect
-from rest_framework import generics
-from django.views.generic.base import View
 from cache_image.models import CacheImage
 from rest_framework.viewsets import ModelViewSet
 from cache_image.serializers import CacheImageIdSerializer
