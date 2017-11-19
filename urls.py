@@ -27,23 +27,6 @@ urlpatterns = [
                url(r'', include('page.urls')),
                ]
 
-
-
-'''
-urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', 'newapp.views.home', name='home'),
-    url(r'^getphotolist/', 'newapp.views.getphotolist', name='getphotolist'),
-    url(r'^getsinglephoto/', 'newapp.views.getsinglephoto', name='getsinglephoto'),
-    url(r'^getdbimages/', 'newapp.views.getdbimages', name='getdbimages'),
-    url(r'^getdbimagelist/', 'newapp.views.getdbimagelist', name='getdbimagelist'),
-    url(r'^getsingledbimage/', 'newapp.views.getsingledbimage', name='getsingledbimage'),
-    url(r'^imagesavedb/', 'newapp.views.imagesavedb', name='imagesavedb'),
-    url(r'^deleteimage/', 'newapp.views.deleteimage', name='deleteimage'),
-    url(r'^.*/$', 'newapp.views.fourzerofour', name='fourzerofour')
-]
-'''
-
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL,
                           document_root=settings.STATIC_ROOT)

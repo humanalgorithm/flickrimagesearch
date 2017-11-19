@@ -17,17 +17,17 @@
     </div>
     <button onclick = "FlickrPhotoService.loadPhotosFromFlickr()" >Search for Images </button>
     <br>
-    Click on image to save: <input id = "imagesavefield" type = "text" size = "50" disabled readonly/>
-    <button onclick = "saveimage()" >Save Image </button>
+    Click on image to save: <input id = "image-save-field" type = "text" size = "50" disabled readonly/>
+    <button onclick="cacheImageService.saveImage()">Save Image </button>
     <br>
-    Click on saved image to delete: <input id = "deleteimagefield" type = "text" size = "50" disabled readonly/>
-    <button onclick = "deleteimage()"> Delete Image </button>
+    Click on saved image to delete: <input id = "delete-image-field" type = "text" size = "50" disabled readonly/>
+    <button onclick = "cacheImageService.deleteImage()"> Delete Image </button>
 
 </div>
 
-<div class = "rightbar" id ="rightbar">
+<div class = "rightbar" id ="right-bar">
   <div class="imagesheading" > Your Images: </div>
-  <div id = "databaseimages" class = "databaseimages">
+  <div id = "cache-images" class = "databaseimages">
 
   </div>
 
@@ -37,8 +37,9 @@
 
 <div id = "photo-list" class = "photolist">
 
-
 </div>
+
+<div id="token">{% csrf_token %}</div>
 </body>
 
 </html>

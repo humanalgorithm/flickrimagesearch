@@ -7,11 +7,13 @@ class FlickrUrlGenerator():
 
     def get_photos_list_url(self, search_text):
         flickr_get_photos_method = "flickr.photos.search"
-        url = "{}?method={}&api_key={}&text={}&format={}".format(
+        per_page="50"
+        url = "{}?method={}&api_key={}&text={}&per_page={}&format={}".format(
             self.flickr_base_url,
             flickr_get_photos_method,
             settings.FLICKR_API_KEY,
             search_text,
+            per_page,
             self.json_format)
         return url
 

@@ -1,19 +1,34 @@
-import simplejson
 import io
 import imghdr
 import urllib
 from cache_image.models import CacheImage
-from rest_framework.viewsets import ModelViewSet
-from cache_image.serializers import CacheImageIdSerializer
+from cache_image.serializers import CacheImageIdSerializer, CacheImageSerializer
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, ListModelMixin
+from rest_framework.viewsets import GenericViewSet
+from django.shortcuts import HttpResponse
 
-
-class CacheImageView(ModelViewSet):
+class CacheImageView(CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, ListModelMixin, GenericViewSet):
     queryset = CacheImage.objects.all()
-    serializer = CacheImageIdSerializer
 
-    def getmimetype(self, returnimage):
-        mimetype = imghdr.what(io.BytesIO(returnimage.data))
-        return mimetype
+    def _getmimetype(self, image):
+        mimetype = imghdr.what(io.BytesIO(image.data))
+        mime_return = "image/"+mimetype
+        return mime_return
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return CacheImageIdSerializer
+        elif self.action == "retrieve":
+            return CacheImageSerializer
+        else:
+            return CacheImageIdSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return HttpResponse(serializer.data['data'], content_type=self._getmimetype(instance))
 
     def create(self, request, *args, **kwargs):
         image_src_url = request.POST.get('image_src_url')
@@ -29,28 +44,12 @@ class CacheImageView(ModelViewSet):
                 break
 
         if reading == False:
-            # with open('out.jpg', 'wb') as out_file:
             try:
                 image = CacheImage()
                 image.set_data(bytesobject)
                 image.save()
-                # out_file.write(bytesobject)
-                # out_file.close()
-                return True
+
+                return Response(data={"id": image.id}, status=status.HTTP_201_CREATED)
             except Exception, e:
-                return False
-
-    def destroy(self, request, *args, **kwargs):
-
-        super(CacheImageView, self).destroy(*args, **kwargs)
-        '''
-
-        try:
-            deleteimage = CacheImage.objects.get(id=dbimageid)
-            deleteimage.delete()
-            return True
-        except Exception, e:
-            print(str(e))
-            return False
-        '''
+                return Response(data={"result": "error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

@@ -1,100 +1,124 @@
 
-
-function saveimage()
-{
- var imagesrc = $("#imagesavefield").val();
- var url = "/imagesavedb/?imagesrc=" + imagesrc;
-   $.ajax
-           ({
-              type: "GET", url: url,
-               success: function(data)
-                 {
-                   loaddbimages();
-                 },
-                 error:
-                 {  }
-            });
-}
-function updateimagesavefield(imagesrc)
-{
- $("#imagesavefield").val(imagesrc);
-}
-
-function loaddbimages()
-{
-var cleared = false;
-    $("#databaseimages").text("");
-    $("#databaseimages").append("<img id='time' src='/static/ajax-loader.gif'/>");
-    var url = "/getdbimagelist";
-    $.ajax({
+var cacheImageService = {
+    saveImage: function(){
+      self = this
+      callback = self.loadCacheImages
+      csrf_token = self._getCsrfToken()
+      var image_src = $("#image-save-field").val();
+      var url = "/cache_image/images/"
+      $.ajax
+        ({
+          type: "POST",
+          url: url,
+          data: {
+              "image_src_url": image_src,
+              "csrfmiddlewaretoken": csrf_token,
+            },
+            success: function(data)
+            {
+              callback(self);
+            },
+            error:
+            {  }
+        });
+    },
+    deleteImage: function()
+    {
+      cache_image_id = this._getDeleteImageCacheId()
+      self = this
+      var url = "/cache_image/images/" + cache_image_id +"/"
+        $.ajax
+            ({
+              type: "DELETE",
+              url: url,
+              success: function(data)
+               {
+                self.loadCacheImages(self);
+                $("#delete-image-field").val("");
+               },
+               error: function(data)
+               { }
+             });
+    },
+    loadCacheImages: function(self)
+    {
+      var cleared = false;
+      var url = "/cache_image/images";
+      callback = self._setCacheImagesDisplay
+      $.ajax({
            type: "GET", url: url,
            data: {},
            success: function(data)
            {
-             var response = JSON.parse(data);
-             var dbimageids = response.dbimageids;
-             $("#databaseimages").text("");
-             for (i in dbimageids)
-            {
-             $("#databaseimages").append(
-                "<a title = '/getsingledbimage/?dbimageid=" + dbimageids[i] + "'class ='imageselected' id='" + dbimageids[i] + "'>"   +   //href = \"javascript:updatedeleteimagefield(" + dbimageids[i] + ")\"
-                "<img src = '/getsingledbimage/?dbimageid=" + dbimageids[i] + "'/>" +
-                "</a>"
-                );
-            }
+             self._clearCacheImages()
+             callback(data)
            },
           error: function(data)
-          {     }
+          { }
        });
+    },
+    _getCsrfToken: function () {
+        return document.getElementById('token').getElementsByTagName("input")[0].value
+    },
+    _getDeleteImageCacheId: function(){
+       return $("#delete-image-field").text();
+    },
+    _setLoadingIcon: function(){
+      $("#cache-images").text("");
+      $("#cache-images").append("<img id='time' src='/static/ajax-loader.gif'/>");
+    },
+    _clearCacheImages: function(){
+       $("#cache-images").text("");
+    },
+    _setCacheImagesDisplay: function(cache_image_ids){
+      for (i in cache_image_ids)
+        {
+          $("#cache-images").append(
+             "<a class = 'image-selected' href =  \"javascript:updateDeleteImageField(\'" + cache_image_ids[i]['id'] + "\')\">" +
+             "<img src = '/cache_image/images/" + cache_image_ids[i]['id'] + "'/>" +
+             "</a>"
+           );
+        }
+    }
+
 }
 
-function deleteimage()
-{
-dbimageid = deleteselected;
-var url = "/deleteimage"
-    $.ajax
-        ({
-          type: "GET", url: url, data:{ dbimageid: dbimageid,},
-           success: function(data)
-           {
-            loaddbimages();
-            $("#deleteimagefield").val("");
-           },
-           error: function(data)
-           { }
-         });
-}
+function updateSaveImageField(image_src)
+ {
+  $("#image-save-field").val(image_src);
+ }
 
-function updatedeleteimagefield(dbimagesrc)
-{
-  $("#deleteimagefield").val(dbimagesrc);
-}
+ function updateDeleteImageField(delete_image_id)
+ {
+    url = "/cache_images/images/" + delete_image_id
+   $("#delete-image-field").val(url);
+   $("#delete-image-field").text(delete_image_id);
+ }
 
 $(document).ready(function()
 {
-//loaddbimages();
+  self = cacheImageService
+  cacheImageService.loadCacheImages(self)
+  $('#right-bar').on('click', 'a', function()
+    {
+      $('.image-selected').each(function()
+      {
+        $(this).css("opacity", "1");
+      });
 
-$('#rightbar').on('click', 'a', function()
-  {
-    $('.imageselected').each(function() {
-    $(this).css("opacity", "1");
-     });
+      $(this).css("opacity", ".3");
 
-    $(this).css("opacity", ".3");
-
-     updatedeleteimagefield($(this).attr('title'));
-     deleteselected =  $(this).attr('id');
+      updateDeleteImageField($(this).attr('title'));
    });
 
-$('#photolist ').on('click', 'a', function()
-    {
-    //window.alert( $(this).attr('id') );
-    $('.listphotos').each(function() {
-    $(this).css("opacity", "1");
-     });
+  $('#photo-list ').on('click', 'a', function()
+     {
+       $('.listphotos').each(function()
+        {
+          $(this).css("opacity", "1");
+        });
 
-    $(this).css("opacity", ".3");
-
+      $(this).css("opacity", ".3");
      });
 
 });

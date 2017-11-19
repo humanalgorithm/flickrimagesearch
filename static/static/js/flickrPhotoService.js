@@ -19,7 +19,10 @@ var FlickrPhotoService = {
         var search_text = $("#search-text").val();
         var url = "/flickr_request/getphotolist";
         $.ajax({
-           type: "GET", url: url, data: {search_text: search_text,},
+           type: "GET",
+           url: url,
+            data: {
+            search_text:search_text,},
            success: function(data)
            {
             var flickr_image_id_map = data.flickr_image_id_map;
@@ -46,7 +49,9 @@ var FlickrPhotoService = {
          $.ajax({
              type: "GET",
              url: single_photo_url,
-             data: {photo_id: flickr_image_id_map[key],},
+             data: {
+               photo_id: flickr_image_id_map[key],
+             },
              success: function(single_photo_data)
               {
                if (time_icon_cleared == false){
@@ -62,7 +67,7 @@ var FlickrPhotoService = {
     _setSinglePhotoImg: function(single_photo_data){
       $("#photo-list").append
            (
-            "<a class = 'listphotos' href =  \"javascript:updateimagesavefield(\'" + single_photo_data.img_url + "\')\">" +
+            "<a class = 'listphotos' href =  \"javascript:updateSaveImageField(\'" + single_photo_data.img_url + "\')\">" +
             "<img src ='" + single_photo_data.img_url + "'>" +
              "</a>"
            );
@@ -72,3 +77,4 @@ var FlickrPhotoService = {
     }
 
 }
+
