@@ -1,0 +1,5 @@
+flickrbaseurl = "https://api.flickr.com/services/rest/?"
+flickgetphotosmethod = "method=flickr.photos.search"
+apikey = "&api_key=c164ccfcd90961b07371f60ce86adbcf"
+flickrgetphotomethod="&method=flickr.photos.getSizes"
+jsonformat = "&format=json&nojsoncallback=1"

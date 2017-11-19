@@ -1,0 +1,43 @@
+<html>
+<head>
+    <title>Image Search Tool</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src = "/static/js/getphotolist.js" type = "text/javascript"></script>
+    <link rel = "stylesheet" href = "/static/css/custom.css">
+</head>
+
+
+<div class = "row">
+
+<div class = "topbar" id="topbar" >
+    <h1> Image Search Tool</h1>
+    <div class = "inlineblock">
+    Search for images <input id = "searchstring" type = "text"/>
+    </div>
+    <button onclick = "getphotolist()" >Search for Images </button>
+    <br>
+    Click on image to save: <input id = "imagesavefield" type = "text" size = "50" disabled readonly/>
+    <button onclick = "saveimage()" >Save Image </button>
+    <br>
+    Click on saved image to delete: <input id = "deleteimagefield" type = "text" size = "50" disabled readonly/>
+    <button onclick = "deleteimage()"> Delete Image </button>
+
+</div>
+
+<div class = "rightbar" id ="rightbar">
+  <div class="imagesheading" > Your Images: </div>
+  <div id = "databaseimages" class = "databaseimages">
+
+  </div>
+
+ </div>
+</div>
+<hr>
+
+<div id = "photolist" class = "photolist">
+
+
+</div>
+</body>
+
+</html>

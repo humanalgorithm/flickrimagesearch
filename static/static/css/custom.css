@@ -1,0 +1,45 @@
+.topbar{
+background-color: #2C3866;
+width:70%;
+display: table-cell;
+color:white;
+}
+
+.row
+{
+display: table-row;
+}
+
+.inlineblock
+{
+ display:inline-block;
+}
+
+.rightbar
+{
+min-width:30%;
+display:table-cell;
+vertical-align:top;
+color:white;
+}
+
+.imagesheading
+{
+background-color:#FF007C;
+}
+.databaseimages
+{
+ overflow:auto;
+ height:300px;
+}
+html
+{
+font-size:40px;
+font-weight:700;
+
+}
+
+.photolist
+{
+color:black;
+}
