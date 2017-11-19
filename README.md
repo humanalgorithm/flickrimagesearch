@@ -3,7 +3,7 @@
 ![flickr-image-search-screenshot](flickr-image-search-screenshot.png "Screenshot of Flickr Image Search")
 
 ## What Is It?
-Flickr image search gives you the ability to search against the flickr api for a search text and then save images to a cache. You can search across all of flickr for any text that you wish to search on. 
+Flickr image search gives you the ability to search against the Flickr api for a search text and then save images to a cache. You can search across all of Flickr for any text that you wish to search on. 
 
 ## How Does it Work?
 Upon search for a search text, a request is sent to the Flickr API with the method "flickr.photos.search." The flickr API will return a list of ids of images that match that search term. This app will then do an API call with the method "flickr.photos.getSizes" for each image id and extract the thumbnail size image from the response. 
