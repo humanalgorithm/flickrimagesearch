@@ -3,8 +3,6 @@ import base64
 from django.db import models
 
 class CacheImage(models.Model):
-
-
     _data = models.BinaryField(
             db_column='data',
             blank=True)

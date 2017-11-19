@@ -8,12 +8,10 @@ class CacheImageIdSerializer(serializers.ModelSerializer):
 
 
 class CacheImageSerializer(serializers.ModelSerializer):
-
     data = serializers.SerializerMethodField()
     class Meta:
         model = CacheImage
         fields = ('data',)
-
 
     def get_data(self, obj):
         return obj.get_data()

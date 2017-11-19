@@ -7,5 +7,3 @@ urlpatterns = [
 router = routers.SimpleRouter()
 router.register(r'images', CacheImageView)
 urlpatterns += router.urls
-
-print urlpatterns
