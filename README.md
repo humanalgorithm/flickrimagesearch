@@ -2,6 +2,8 @@
 
 ![flickr-image-search-screenshot](flickr-image-search-screenshot.png "Screenshot of Flickr Image Search")
 
+## Live at http://flickrimagesearch.com
+
 ## What Is It?
 Flickr image search gives you the ability to search against the Flickr api for a search text and then save images to a cache. You can search across all of Flickr for any text that you wish to search on. 
 
